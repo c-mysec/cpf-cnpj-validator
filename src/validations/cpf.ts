@@ -30,27 +30,26 @@ const validateDigit = (arr: number[], position: number): boolean => {
   return true;
 };
 
-const validateCPF = (cpf: unknown): boolean => {
-  if (typeof cpf !== 'string' && typeof cpf !== 'number') {
+const validateCNPJ = (cnpj: unknown): boolean => {
+  if (typeof cnpj !== 'string' && typeof cnpj !== 'number') {
     return false;
   }
 
-  let filteredCPF = String(cpf);
-  filteredCPF = filteredCPF.replace(/\.|-/g, '');
+  let filteredCNPJ = String(cnpj);
+  filteredCNPJ = filteredCNPJ.replace(/\W/g, '');
+  filteredCNPJ = filteredCNPJ.toUpperCase();
 
-  if (filteredCPF.length !== 11) {
+  if (filteredCNPJ.length !== 14) {
     return false;
   }
 
-  const arrCPF: number[] = Array.from(filteredCPF, Number);
+  const arrCNPJ: number[] = Array.from(filteredCNPJ, char => {
+    const asciiCode = char.charCodeAt(0);
+    return asciiCode - 48;
+  });
 
-  const repeatedNumbers: boolean = arrCPF.every((num, i, arr) => num === arr[0]);
-  if (repeatedNumbers) {
-    return false;
-  }
-
-  const firstDigit = validateDigit(arrCPF, 1);
-  const secondDigit = validateDigit(arrCPF, 2);
+  const firstDigit = validateDigit(arrCNPJ, 1);
+  const secondDigit = validateDigit(arrCNPJ, 2);
   if (!firstDigit || !secondDigit) {
     return false;
   }
@@ -58,4 +57,4 @@ const validateCPF = (cpf: unknown): boolean => {
   return true;
 };
 
-export default validateCPF;
+export default validateCNPJ;
