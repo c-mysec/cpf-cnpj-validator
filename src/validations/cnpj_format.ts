@@ -5,11 +5,13 @@ export default function CNPJformat(cnpj: unknown): boolean {
     return false;
   }
 
-  if (cnpj.length !== 18) return false;
-  if (cnpj[2] !== '.') return false;
-  if (cnpj[6] !== '.') return false;
-  if (cnpj[10] !== '/') return false;
-  if (cnpj[15] !== '-') return false;
+  const cleanedCnpj = cnpj.replace(/\W/g, '').toUpperCase();
 
-  return validateCNPJ(cnpj);
+  if (cleanedCnpj.length !== 14) return false;
+  if (cleanedCnpj[2] !== '.') return false;
+  if (cleanedCnpj[6] !== '.') return false;
+  if (cleanedCnpj[10] !== '/') return false;
+  if (cleanedCnpj[15] !== '-') return false;
+
+  return validateCNPJ(cleanedCnpj);
 }

@@ -13,10 +13,12 @@ export default class Validator {
   }
 
   public static isCNPJ(cnpj: unknown): boolean {
-    return validateCNPJ(cnpj);
+    const formattedCNPJ = typeof cnpj === 'string' ? cnpj.toUpperCase() : cnpj;
+    return validateCNPJ(formattedCNPJ);
   }
 
   public static isFormattedCNPJ(cnpj: unknown): boolean {
-    return CNPJformat(cnpj);
+    const formattedCNPJ = typeof cnpj === 'string' ? cnpj.toUpperCase() : cnpj;
+    return CNPJformat(formattedCNPJ);
   }
 }

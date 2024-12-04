@@ -37,12 +37,16 @@ const validateCNPJ = (cnpj: unknown): boolean => {
 
   let filteredCNPJ = String(cnpj);
   filteredCNPJ = filteredCNPJ.replace(/\.|-|\//g, '');
+  filteredCNPJ = filteredCNPJ.toUpperCase();
 
   if (filteredCNPJ.length !== 14) {
     return false;
   }
 
-  const arrCNPJ: number[] = Array.from(filteredCNPJ, Number);
+  const arrCNPJ: number[] = Array.from(filteredCNPJ, char => {
+    const ascii = char.charCodeAt(0) - 48;
+    return isNaN(ascii) ? ascii - 55 : ascii;
+  });
 
   const repeatedNumbers: boolean = arrCNPJ.every((num, i, arr) => num === arr[0]);
   if (repeatedNumbers) {

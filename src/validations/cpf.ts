@@ -1,3 +1,4 @@
+```typescript
 const validateDigit = (arr: number[], position: number): boolean => {
   let factor: number;
   let arrayDigit: number;
@@ -42,7 +43,18 @@ const validateCPF = (cpf: unknown): boolean => {
     return false;
   }
 
-  const arrCPF: number[] = Array.from(filteredCPF, Number);
+  const arrCPF: number[] = Array.from(filteredCPF, (char: string) => {
+    const charCode = char.charCodeAt(0);
+    if (charCode >= 48 && charCode <= 57) {
+      return charCode - 48;
+    } else if (charCode >= 65 && charCode <= 90) {
+      return charCode - 55;
+    } else if (charCode >= 97 && charCode <= 122) {
+      return charCode - 87;
+    } else {
+      return NaN;
+    }
+  });
 
   const repeatedNumbers: boolean = arrCPF.every((num, i, arr) => num === arr[0]);
   if (repeatedNumbers) {
@@ -59,3 +71,4 @@ const validateCPF = (cpf: unknown): boolean => {
 };
 
 export default validateCPF;
+```
